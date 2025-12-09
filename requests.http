@@ -6,3 +6,41 @@ Content-Type: application/json
   "email": "admin@gmail.com",
   "password": "admin123"
 }
+
+### CREATE USER
+POST http://localhost:5000/api/users
+Content-Type: application/json
+
+{
+  "firstName": "Divya",
+  "lastName": "Patil",
+  "email": "divpatil@gmail.com",
+  "contactNumber": "9452876321",
+  "joiningDate": "2025-12-09T10:25:30Z",
+  "password": "divya2930",
+  "role": "EMPLOYEE"
+}
+
+### GET ALL USER
+GET http://localhost:5000/api/users
+Content-Type: application/json
+
+### GET USER BY ID
+GET http://localhost:5000/api/users/5
+Content-Type: application/json
+
+### UPDATE USER 
+PUT http://localhost:5000/api/users/5
+Content-Type: application/json
+
+{
+  "firstName": "Divyaa",
+  "lastName": "Pawar",
+  "email": "divyapawar@gmail.com",
+  "contactNumber": "7852146398",
+  "password": "divya29301"
+}
+
+### DELETE USER 
+DELETE http://localhost:5000/api/users/5
+Content-Type: application/json

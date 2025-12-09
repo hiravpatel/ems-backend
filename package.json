@@ -4,7 +4,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "node --watch server.js",
     "seed": "node ./commands/admin-seeder.js",
     "prisma-generate": "npx prisma generate",
     "prisma-migrate": "npx prisma migrate dev"
