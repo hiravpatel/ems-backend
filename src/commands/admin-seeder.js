@@ -19,12 +19,16 @@ async function main() {
     if (!adminExists) {
         await prisma.user.create({
             data: {
-                firstName: "Kashish",
+                firstName: "admin",
                 email: adminEmail,
                 contactNumber: "9999999999",
-                joiningDate: new Date("2025-12-08T00:00:00.000Z"),
+                joiningDate: new Date(),
                 password: await bcrypt.hash(adminPassword, 10),
                 role: "ADMIN",
+                position: "HR_Executive",
+                department: "HR",
+                status: "Active",
+                deletedAt: null
             },
         });
 
