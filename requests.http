@@ -3,8 +3,8 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "admin@gmail.com",
-  "password": "admin123"
+  "email": "sujalzala66@gmail.com",
+  "password": "SHXRWH"
 }
 
 ### CREATE USER
@@ -16,9 +16,11 @@ Content-Type: application/json
   "lastName": "Patil",
   "email": "divpatil@gmail.com",
   "contactNumber": "9452876321",
-  "joiningDate": "2025-12-09T10:25:30Z",
+  "joiningDate": "2025-01-15T10:25:30.000Z",
   "password": "divya2930",
-  "role": "EMPLOYEE"
+  "position": "HR_Executive",
+  "department": "HR",
+  "status": "Active"
 }
 
 ### GET ALL USER

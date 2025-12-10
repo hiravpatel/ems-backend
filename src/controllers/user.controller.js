@@ -3,9 +3,13 @@ import { successResponse, errorResponse } from "../utils/response.js";
 // Create User 
 export const createUser = async (req, res) => {
     try {
-        const user = await createUserService(req.body);
+        const {user, otp} = await createUserService(req.body);
 
-        return successResponse(res, "User created successfully", user, 201);
+        return successResponse(res, "User created successfully", {
+            user,
+            tempPassword: otp,
+            employeecode: user.employeeCode
+        }, 201);
 
     } catch (error) {
 
