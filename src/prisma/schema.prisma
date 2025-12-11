@@ -33,20 +33,57 @@ enum POSITION {
   Marketing_Manager
 }
 
+enum LEAVESTATUS {
+  Pending
+  Approved
+  Rejected
+}
+
 model User {
-  id            Int         @id @default(autoincrement())
-  firstName     String      @default("")
-  lastName      String      @default("")
-  email         String      @unique
+  id            Int        @id @default(autoincrement())
+  firstName     String     @default("")
+  lastName      String     @default("")
+  email         String     @unique
   contactNumber String
-  joiningDate   DateTime 
+  joiningDate   DateTime
   password      String
-  role          ROLE        @default(EMPLOYEE)
+  role          ROLE       @default(EMPLOYEE)
   position      POSITION
   department    DEPARTMENT
   status        STATUS
   employeeCode  String?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  deletedAt     DateTime?   
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  deletedAt     DateTime?
+
+  //Back Relation
+  leaves Leave[]
+}
+
+model LeaveType {
+  id          Int       @id @default(autoincrement())
+  leaveType   String
+  description String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  //Back Relation
+  leaves Leave[]
+}
+
+model Leave {
+  id          Int         @id @default(autoincrement())
+  employeeId  Int
+  leaveTypeId Int
+  fromDate    DateTime
+  toDate      DateTime
+  description String?
+  status      LEAVESTATUS @default(Pending)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  //Relations
+  employee  User      @relation(fields: [employeeId], references: [id])
+  leaveType LeaveType @relation(fields: [leaveTypeId], references: [id])
 }
