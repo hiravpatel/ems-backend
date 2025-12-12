@@ -3,8 +3,8 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "sujalzala66@gmail.com",
-  "password": "SHXRWH"
+  "email": "admin735@gmail.com",
+  "password": "admin@123"
 }
 
 ### CREATE USER
@@ -46,3 +46,53 @@ Content-Type: application/json
 ### DELETE USER 
 DELETE http://localhost:5000/api/users/5
 Content-Type: application/json
+
+### CREATE LEAVE TYPE
+POST http://localhost:5000/api/leavetype
+Content-Type: application/json
+
+{
+  "leaveType": "Sick Leave",
+  "description": "Leave taken when the employee is unwell or needs medical care."
+}
+
+### GET ALL LEAVE TYPE
+GET http://localhost:5000/api/leavetype
+Content-Type: application/json
+
+### UPDATE LEAVE TYPE 
+PUT http://localhost:5000/api/leavetype/
+Content-Type: application/json
+
+{
+  "leaveType": "Sick Leave",
+  "description": "Leave taken when the employee is unwell or needs medical care."
+}
+
+### DELETE LEAVE TYPE 
+DELETE http://localhost:5000/api/leavetype/
+Content-Type: application/json
+
+### APPLY FOR LEAVE (EMPLOYEE)
+POST http://localhost:5000/api/leaves
+Content-Type: application/json
+Authorization: Bearer <USER_TOKEN>
+{
+  "leaveTypeId": 2,
+  "fromDate": "2025-02-01T00:00:00.000Z",
+  "toDate": "2025-02-03T00:00:00.000Z",
+  "description": "I am suffering from fever."
+}
+
+### GET ALL LEAVE (ADMIN)
+GET http://localhost:5000/api/leaves
+Content-Type: application/json
+
+### UPDATE LEAVE STATUS (ADMIN)
+PUT http://localhost:5000/api/leaves/1/status
+Content-Type: application/json
+
+{
+  "status": "Approved"
+}
+
