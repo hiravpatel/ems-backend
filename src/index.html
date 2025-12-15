@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>EMS Backend API – Staging</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f9fc;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        h2 {
+            margin-top: 30px;
+            color: #34495e;
+        }
+
+        .endpoint {
+            background: #ffffff;
+            border-left: 5px solid #3498db;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .method {
+            font-weight: bold;
+            color: #e67e22;
+        }
+
+        code {
+            display: block;
+            background: #f4f4f4;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+
+        .url {
+            color: #27ae60;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>EMS Backend API – Staging</h1>
+    <p><strong>Base URL:</strong> <span class="url">https://ems-backend-ufhm.onrender.com</span></p>
+
+    <!-- AUTH -->
+    <h2>Authentication</h2>
+
+    <div class="endpoint">
+        <span class="method">POST</span> Login
+        <code>
+https://ems-backend-ufhm.onrender.com/api/auth/login
+
+{
+  "email": "patelhirav2212@gmail.com",
+  "password": "Hirav@123"
+}
+  </code>
+    </div>
+
+    <!-- USERS -->
+    <h2>Users</h2>
+
+    <div class="endpoint">
+        <span class="method">POST</span> Create User
+        <code>
+https://ems-backend-ufhm.onrender.com/api/users
+
+{
+  "firstName": "Divya",
+  "lastName": "Patil",
+  "email": "divpatil@gmail.com",
+  "contactNumber": "9452876321",
+  "joiningDate": "2025-01-15T10:25:30.000Z",
+  "password": "divya2930",
+  "position": "HR_Executive",
+  "department": "HR",
+  "status": "Active"
+}
+  </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Get All Users
+        <code>
+https://ems-backend-ufhm.onrender.com/api/users
+  </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Get User By ID
+        <code>
+https://ems-backend-ufhm.onrender.com/api/users/{id}
+  </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">PUT</span> Update User
+        <code>
+https://ems-backend-ufhm.onrender.com/api/users/{id}
+
+{
+  "firstName": "Divyaa",
+  "lastName": "Pawar",
+  "email": "divyapawar@gmail.com",
+  "contactNumber": "7852146398",
+  "password": "divya29301"
+}
+  </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">DELETE</span> Delete User
+        <code>
+https://ems-backend-ufhm.onrender.com/api/users/{id}
+  </code>
+    </div>
+
+    <!-- LEAVE TYPES -->
+    <h2>Leave Types</h2>
+
+    <div class="endpoint">
+        <span class="method">POST</span> Create Leave Type
+        <code>
+https://ems-backend-ufhm.onrender.com/api/leavetype
+
+{
+  "leaveType": "Sick Leave",
+  "description": "Leave taken when the employee is unwell or needs medical care."
+}
+  </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Get All Leave Types
+        <code>
+https://ems-backend-ufhm.onrender.com/api/leavetype
+  </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">PUT</span> Update Leave Type
+        <code>
+https://ems-backend-ufhm.onrender.com/api/leavetype/{id}
+
+{
+  "leaveType": "Sick Leave",
+  "description": "Leave taken when the employee is unwell or needs medical care."
+}
+  </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">DELETE</span> Delete Leave Type
+        <code>
+https://ems-backend-ufhm.onrender.com/api/leavetype/{id}
+  </code>
+    </div>
+
+    <!-- LEAVES -->
+    <h2>Leaves</h2>
+
+    <div class="endpoint">
+        <span class="method">POST</span> Apply for Leave (Employee)
+        <code>
+https://ems-backend-ufhm.onrender.com/api/leaves
+Authorization: Bearer &lt;USER_TOKEN&gt;
+
+{
+  "leaveTypeId": 2,
+  "fromDate": "2025-02-01T00:00:00.000Z",
+  "toDate": "2025-02-03T00:00:00.000Z",
+  "description": "I am suffering from fever."
+}
+  </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Get All Leaves (Admin)
+        <code>
+https://ems-backend-ufhm.onrender.com/api/leaves
+  </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">PUT</span> Update Leave Status (Admin)
+        <code>
+https://ems-backend-ufhm.onrender.com/api/leaves/{id}/status
+
+{
+  "status": "Approved"
+}
+  </code>
+    </div>
+
+</body>
+
+</html>
