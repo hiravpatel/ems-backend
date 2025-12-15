@@ -23,6 +23,19 @@ export const getAllLeaveTypeService = async () => {
     return await getAllLeaveTypeRepo();
 };
 
+// Get LeaveType By Id
+export const getLeaveTypeByIdService = async (id) => {
+    const leaveType = await getLeaveTypeByIdRepo(id);
+
+    if (!leaveType) {
+        const error = new Error("Leave Type not found");
+        error.code = "LEAVE_TYPE_NOT_FOUND"
+        throw error;
+    }
+
+    return leaveType;
+}
+
 // Update LeaveType
 export const updateLeaveTypeService = async (id, data) => {
 
