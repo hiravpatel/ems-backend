@@ -21,7 +21,7 @@ export const createUserRepo = async (data) => {
 // }
 export const getAllUserRepo = async () => {
     return prisma.user.findMany({
-        where: { deletedAt: null }  //This will display only active user
+        where: { deletedAt: null, role: "EMPLOYEE" }  //This will display only active user and admin can't see those data
     });
 }
 

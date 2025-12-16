@@ -1,5 +1,5 @@
 import { successResponse, errorResponse } from "../utils/response.js";
-import { applyLeaveService, getAllLeavesService, updateLeaveStatusService } from "../services/leave.service.js"
+import { applyLeaveService, getUserLeavesService, getAllLeavesService, getLeaveByIdService, updateLeaveStatusService } from "../services/leave.service.js"
 
 // Apply for Leave (Employee)
 export const applyLeave = async (req, res) => {
@@ -18,6 +18,20 @@ export const applyLeave = async (req, res) => {
     }
 };
 
+// Get all Leaves(User)
+// User will get all Leaves
+export const getUserLeaves = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const userLeave = await getUserLeavesService(userId);
+        
+        return successResponse(res, "User Leaves fetched successfully", userLeave, 200)
+    } catch (error) {
+        console.log(error);
+        return errorResponse(res, "Server Error", 500, error.message);
+    }
+}
+
 // Get all Leaves(Admin)
 // Admin will get all Leaves
 export const getAllLeaves = async (req, res) => {
@@ -30,6 +44,19 @@ export const getAllLeaves = async (req, res) => {
         return errorResponse(res, "Server Error", 500, error.message);
     }
 };
+
+// Get leave by id
+export const getLeaveById = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const leave = await getLeaveByIdService(id);
+
+        return successResponse(res, "Leaves Details fetched successfully", leave, 200);
+    } catch (error) {
+        return errorResponse(res, "Server Error", 500, error.message);
+    }
+}
 
 // Update leave status (Admin)
 // Admin will approved/reject leave
