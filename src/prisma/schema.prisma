@@ -39,25 +39,65 @@ enum LEAVESTATUS {
   Rejected
 }
 
+enum PAYROLLSTATUS {
+  PAID
+  UNPAID
+}
+
 model User {
-  id            Int        @id @default(autoincrement())
-  firstName     String     @default("")
-  lastName      String     @default("")
-  email         String     @unique
-  contactNumber String
-  joiningDate   DateTime
-  password      String
-  role          ROLE       @default(EMPLOYEE)
-  position      POSITION
-  department    DEPARTMENT
-  status        STATUS
-  employeeCode  String?
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  deletedAt     DateTime?
+  id                 Int        @id @default(autoincrement())
+  firstName          String     @default("")
+  lastName           String     @default("")
+  email              String     @unique
+  contactNumber      String
+  joiningDate        DateTime
+  password           String
+  role               ROLE       @default(EMPLOYEE)
+  position           POSITION
+  department         DEPARTMENT
+  status             STATUS
+  employeeCode       String?
+
+  departmentSalaryId Int
+  salary             Float
+  
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  deletedAt          DateTime?
 
   //Back Relation
-  leaves Leave[]
+  departmentSalary DepartmentSalary @relation(fields: [departmentSalaryId], references: [id])
+  leaves           Leave[]
+  payrolls         Payroll[]
+}
+
+model DepartmentSalary {
+  id          Int        @id @default(autoincrement())
+  department  DEPARTMENT @unique
+  basicSalary Float
+  allowance   Float
+  deduction   Float
+  createdAt   DateTime   @default(now())
+
+  //Back Relation
+  users User[]
+}
+
+model Payroll {
+  id            Int           @id @default(autoincrement())
+  employeeId    Int
+  month         String
+  basicSalary   Float
+  allowance     Float
+  deduction     Float
+  netSalary     Float
+  payrollStatus PAYROLLSTATUS @default(UNPAID)
+  createdAt     DateTime      @default(now())
+
+  //Back Relation
+  employee User @relation(fields: [employeeId], references: [id])
+
+  @@unique([employeeId, month])
 }
 
 model LeaveType {

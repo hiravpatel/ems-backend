@@ -19,7 +19,7 @@ async function main() {
     if (!adminExists) {
         await prisma.user.create({
             data: {
-                firstName: "admin",
+                firstName: "Admin",
                 email: adminEmail,
                 contactNumber: "9999999999",
                 joiningDate: new Date(),
