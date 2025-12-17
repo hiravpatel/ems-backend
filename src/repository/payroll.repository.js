@@ -8,7 +8,7 @@ export const findPayrollByEmployeeAndMonthRepo = async (employeeId, month) => {
 };
   
 export const findEmployeeByIdRepo = async (id) => {
-    return prisma.payroll.findUnique({
+    return prisma.user.findUnique({
         where: {id},
         include: { departmentSalary: true }
     });
@@ -27,10 +27,32 @@ export const getAllPayrollsRepo = async () => {
 };
 
 // Get Payroll by employee
-export const getPayrollByEmployeeRepo = async (employeeId) => {
-    return prisma.payroll.findMany({
-        where: { employeeId },
-        include: { employee: true },
-        orderBy: { createdAt: "desc" }
+export const getPayrollByEmployeeRepo = async (payrollId) => {
+    return prisma.payroll.findUnique({
+        where: { id: payrollId },
+        include: {
+            employee: true,
+        }
     });
 };
+
+// Get all payroll (user)
+export const getMyPayrollsRepo = async (employeeId) => {
+    return await prisma.payroll.findMany({
+        where: {employeeId},
+        orderBy: {createdAt: "desc"}
+    });
+};
+
+// Get Salary slip by id
+export const getPayrollByIdRepo = async (payrollId, employeeId) => {
+    return prisma.payroll.findFirst({
+        where: {
+            id: payrollId,
+            employeeId
+        },
+        include: {
+            employee: true
+        }
+    });
+}

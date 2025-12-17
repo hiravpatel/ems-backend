@@ -3,7 +3,9 @@ import {
   findEmployeeByIdRepo,
   createPayrollRepo,
   getAllPayrollsRepo,
-  getPayrollByEmployeeRepo
+  getPayrollByEmployeeRepo,
+  getMyPayrollsRepo,
+  getPayrollByIdRepo
 } from "../repository/payroll.repository.js";
 import { calculatePayroll } from "../utils/calculatePayroll.js";
 
@@ -38,7 +40,7 @@ export const processPayrollService = async (employeeId, month) => {
     allowance,
     deduction,
     netSalary,
-    payrollStatus: "UNPAID",
+    payrollStatus: "PAID",
   };
 
   const createPayroll = await createPayrollRepo(payrollData);
@@ -52,6 +54,22 @@ export const getAllPayrollsService = async () => {
 };
 
 // Get Payroll by employee
-export const getPayrollByEmployeeService = async (employeeId) => {
-  return await getPayrollByEmployeeRepo(employeeId);
+export const getPayrollByEmployeeService = async (payrollId) => {
+  return await getPayrollByEmployeeRepo(payrollId);
 };
+
+// Get all payrolls (user)
+export const getMyPayrollsService = async (employeeId) => {
+  return await getMyPayrollsRepo(employeeId);
+};
+
+// Employee salary slip by id
+export const getPayrollByIdService = async (payrollId, employeeId) => {
+  const payroll = await getPayrollByIdRepo(payrollId, employeeId);
+
+  if (!payroll) {
+    throw new Error("PAYROLL_NOT_FOUND");
+  }
+
+  return payroll;
+}

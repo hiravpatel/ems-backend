@@ -1,5 +1,5 @@
 import express from "express";
-import { createLeaveType, getAllLeaveType, updateLeaveType, deleteLeaveType } from "../controllers/leavetypes.controller.js"
+import { createLeaveType, getAllLeaveType, getLeaveTypeById, updateLeaveType, deleteLeaveType } from "../controllers/leavetypes.controller.js"
 import { verifyAdmin } from "../middlewares/verifyAdmin.js"
 
 const router = express.Router();
@@ -8,7 +8,10 @@ const router = express.Router();
 router.post("/", verifyAdmin, createLeaveType);
 
 //Get All LeaveType
-router.get("/", verifyAdmin, getAllLeaveType);
+router.get("/", getAllLeaveType);
+
+// Get LeaveType By Id
+router.get("/:id", verifyAdmin, getLeaveTypeById);
 
 // Update LeaveType
 router.put("/:id", verifyAdmin, updateLeaveType);

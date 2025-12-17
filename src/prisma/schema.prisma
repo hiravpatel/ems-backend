@@ -39,10 +39,6 @@ enum LEAVESTATUS {
   Rejected
 }
 
-enum PAYROLLSTATUS {
-  PAID
-  UNPAID
-}
 
 model User {
   id                 Int        @id @default(autoincrement())
@@ -91,7 +87,7 @@ model Payroll {
   allowance     Float
   deduction     Float
   netSalary     Float
-  payrollStatus PAYROLLSTATUS @default(UNPAID)
+  payrollStatus String
   createdAt     DateTime      @default(now())
 
   //Back Relation
