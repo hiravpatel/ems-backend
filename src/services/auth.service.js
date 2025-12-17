@@ -19,6 +19,6 @@ export const loginService = async (email, password) => {
         status: true,
         message: "Login successful",
         token,
-        user: { id: user.id, firstName: user.firstName, lastName: user.lastName, email: user.email, role: user.role },
+        user: { id: user.id, firstName: user.firstName, lastName: user.lastName, employeeCode : user.employeeCode, email: user.email, role: user.role },
     };
 };

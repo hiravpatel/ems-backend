@@ -6,28 +6,29 @@ import authRoutes from "./src/routes/auth.routes.js";
 import userRoutes from "./src/routes/user.routes.js";
 import leaveTypesRouter from "./src/routes/leavetypes.routes.js";
 import leaveRoutes from "./src/routes/leave.routes.js";
+import payrollRoutes from "./src/routes/payroll.routes.js";
 import enumRoutes from "./src/routes/enum.routes.js";
 
 dotenv.config();
 
 const app = express();
 
-// Allow JSON
-app.use(express.json());
-
-// Add CORS before routes
 app.use(
     cors({
-        origin: " http://localhost:5173", //React frontend URL
-        credentials: true,
+        origin: "http://localhost:5173", //Frontend url
+        credentials: true
     })
 );
+
+// Allow JSON
+app.use(express.json());
 
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/leavetype", leaveTypesRouter);
 app.use("/api/leaves", leaveRoutes);
+app.use("/api/payroll", payrollRoutes)
 app.use("/api/enums", enumRoutes);
 
 export default app;

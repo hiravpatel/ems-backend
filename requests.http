@@ -3,9 +3,11 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "admin735@gmail.com",
-  "password": "admin@123"
+  "email": "sujalzala66@gmail.com",
+  "password": "SHXRWH"
 }
+
+### USER
 
 ### CREATE USER
 POST http://localhost:5000/api/users
@@ -47,6 +49,8 @@ Content-Type: application/json
 DELETE http://localhost:5000/api/users/5
 Content-Type: application/json
 
+### LEAVE TYPE
+
 ### CREATE LEAVE TYPE
 POST http://localhost:5000/api/leavetype
 Content-Type: application/json
@@ -73,6 +77,8 @@ Content-Type: application/json
 DELETE http://localhost:5000/api/leavetype/
 Content-Type: application/json
 
+### LEAVE MANAGEMENT
+
 ### APPLY FOR LEAVE (EMPLOYEE)
 POST http://localhost:5000/api/leaves
 Content-Type: application/json
@@ -95,4 +101,32 @@ Content-Type: application/json
 {
   "status": "Approved"
 }
+
+### PAYROLL
+
+###  PROCESS PAYROLL (ADMIN)
+POST http://localhost:5000/api/payroll/process
+Content-Type: application/json
+Authorization: Bearer <USER_TOKEN>
+{
+  "employeeId": 2,
+  "month": "",
+  "basicSalary": "",
+  "allowance": "",
+  "deduction": "",
+  "netSalary": "",
+  "payrollStatus": ""
+}
+
+### GET ALL PAYROLLS
+GET http://localhost:5000/api/payroll
+Content-Type: application/json
+
+### GET PAYROLL BY EMPLOYEE
+GET http://localhost:5000/api/payroll/5
+Content-Type: application/json
+
+### GET ALL PAYROLL OF EMPLOYEE
+GET http://localhost:5000/api/payroll/my
+Content-Type: application/json
 
