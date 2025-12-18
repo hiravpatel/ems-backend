@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Created</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            color: #333;
+            text-align: center;
+        }
+        .container{
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        p{
+            font-size: 15px;
+            line-height: 1.5;  
+        }
+        .otp{
+            display: flex;
+            justify-content: center;
+            letter-spacing: 6px;
+            font-size: 30px;
+            color: red;
+            font-weight: bold;
+            line-height: 2;
+        }
+        .footer{
+            font-size: 14px;
+            color: #777;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Complete registration</h2>
+        <h5>Hello {{firstName}} </h5>
+        <p>Your account has been created successfully! Use this password to log in for the first time. Please change it after login.</p>
+        <div class="otp">{{otp}}</div>        
+        <p>Thank You!</p>
+        <div class="footer">&copy; All rights reserved.</div>
+    </div>
+</body>
+</html>

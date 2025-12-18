@@ -10,6 +10,7 @@ import {
 import { generateEmployeeCode } from "../utils/generateEmployeeCode.js";
 import { generateOtp } from "../utils/generateOtp.js";
 import { sendEmail } from "../utils/sendEmail.js";
+import { getEmailTemplate } from "../utils/emailTemplate.js";
 
 // Create User
 export const createUserService = async (data) => {
@@ -65,21 +66,11 @@ export const createUserService = async (data) => {
   // Create User in db
   const createdUser = await createUserRepo(userData);
 
-  // Send email with otp
-  await sendEmail(
-    email,
-    "Your One-Time Password (Login Credentials)",
-    `Hello ${firstName},
-            
-            Your account  has been created successfully!
+  // Prepare HTML email
+  const htmlContent = getEmailTemplate(firstName, otp);
 
-            Your one-time password is: ${otp}
-
-            Use this password to log in for the first time.
-            Please change it after login.
-            
-            Thank you!`
-  );
+  // Send email
+  await sendEmail(email, "Your One-Time Password", htmlContent);
 
   return {
     user: createdUser,
