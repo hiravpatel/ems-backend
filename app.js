@@ -8,6 +8,7 @@ import leaveTypesRouter from "./src/routes/leavetypes.routes.js";
 import leaveRoutes from "./src/routes/leave.routes.js";
 import payrollRoutes from "./src/routes/payroll.routes.js";
 import enumRoutes from "./src/routes/enum.routes.js";
+import profileRoutes from "./src/routes/profile.routes.js";
 
 dotenv.config();
 
@@ -30,5 +31,6 @@ app.use("/api/leavetype", leaveTypesRouter);
 app.use("/api/leaves", leaveRoutes);
 app.use("/api/payroll", payrollRoutes)
 app.use("/api/enums", enumRoutes);
+app.use("/api/profile", profileRoutes);
 
 export default app;

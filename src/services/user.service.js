@@ -5,7 +5,7 @@ import {
   getAllUserRepo,
   getUserByIdRepo,
   updateUserRepo,
-  deleteUserRepo,
+  deleteUserRepo
 } from "../repository/user.repository.js";
 import { generateEmployeeCode } from "../utils/generateEmployeeCode.js";
 import { generateOtp } from "../utils/generateOtp.js";

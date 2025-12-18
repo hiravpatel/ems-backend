@@ -56,16 +56,60 @@ model User {
 
   departmentSalaryId Int
   salary             Float
-  
+
+  personalInfo       PersonalInfo?
+  educationInfo      EducationInfo?
+
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
   deletedAt          DateTime?
 
-  //Back Relation
-  departmentSalary DepartmentSalary @relation(fields: [departmentSalaryId], references: [id])
-  leaves           Leave[]
-  payrolls         Payroll[]
+  departmentSalary   DepartmentSalary @relation(fields: [departmentSalaryId], references: [id])
+  leaves             Leave[]
+  payrolls           Payroll[]
 }
+
+
+model PersonalInfo {
+  id              Int       @id @default(autoincrement())
+  fatherName      String?
+  fatherContact   String?
+  motherName      String?
+  motherContact   String?
+  address         String?
+  dateOfBirth     DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  userId          Int       @unique
+  user            User      @relation(fields: [userId], references: [id])
+}
+
+
+model EducationInfo {
+  id          Int       @id @default(autoincrement())
+
+  uDegree     String?
+  uCollege    String?
+  uYear       String?
+  uCGPA       Float?
+
+  pDegree     String?
+  pCollege    String?
+  pYear       String?
+  pCGPA       Float?
+
+  phdResearch String?
+  phdCollege  String?
+  phdYear     String?
+  phdResult   String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  userId      Int       @unique
+  user        User      @relation(fields: [userId], references: [id])
+}
+
 
 model DepartmentSalary {
   id          Int        @id @default(autoincrement())

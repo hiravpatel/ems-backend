@@ -16,26 +16,22 @@ export const createUserRepo = async (data) => {
 };
 
 // Get All Users
-// export const getAllUserRepo = async () => {
-//     return prisma.user.findMany();
-// }
 export const getAllUserRepo = async () => {
     return prisma.user.findMany({
-        where: { deletedAt: null, role: "EMPLOYEE" }  //This will display only active user and admin can't see those data
+        where: {  role: "EMPLOYEE" } 
     });
 }
 
 // Get User by Id
-// export const getUserByIdRepo = async (id) => {
-//     return prisma.user.findUnique({
-//         where: { id },
-//     });
-// }
 export const getUserByIdRepo = async (id) => {
     return prisma.user.findFirst({
         where: {
             id: Number(id),
             deletedAt: null
+        },
+        include: {
+            personalInfo: true,
+            educationInfo: true
         }
     });
 }
@@ -51,9 +47,6 @@ export const updateUserRepo = async (id, data) => {
 // Delete User
 // This logic is for users Soft Delete
 export const deleteUserRepo = async (id) => {
-    // return prisma.user.delete({
-    //     where: { id }
-    // });
     return prisma.user.update({
         where: { id: Number(id) },
         data: {

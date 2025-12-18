@@ -3,7 +3,7 @@ import {
   getAllUserService,
   getUserByIdService,
   updateUserService,
-  deleteUserService,
+  deleteUserService
 } from "../services/user.service.js";
 import { successResponse, errorResponse } from "../utils/response.js";
 // Create User

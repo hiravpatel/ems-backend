@@ -4,7 +4,7 @@ import {
   getAllUser,
   getUserById,
   updateUser,
-  deleteUser,
+  deleteUser
 } from "../controllers/user.controller.js";
 import { verifyAdmin } from "../middlewares/verifyAdmin.js";
 
