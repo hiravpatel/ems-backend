@@ -49,7 +49,7 @@ export const getPayrollByIdRepo = async (payrollId, employeeId) => {
     return prisma.payroll.findFirst({
         where: {
             id: payrollId,
-            employeeId
+            ...(employeeId ? { employeeId } : {})
         },
         include: {
             employee: true

@@ -1,7 +1,16 @@
 import express from "express";
-import { processPayroll, getAllPayrolls, getPayrollByEmployee, getMyPayrolls, getPayrollById } from "../controllers/payroll.controller.js";
+import {
+  processPayroll,
+  getAllPayrolls,
+  getPayrollByEmployee,
+  getMyPayrolls,
+  getPayrollById,
+  downloadSalarySlip
+} from "../controllers/payroll.controller.js";
+
 import { verifyAdmin } from "../middlewares/verifyAdmin.js";
 import { verifyUser } from "../middlewares/verifyUser.js";
+import { verifyAdminOrUser } from "../middlewares/verifyAdminOrUser.js";
 
 const router = express.Router();
 
@@ -19,5 +28,8 @@ router.get("/my/:id", verifyUser, getPayrollById);
 
 // Get Payroll by employee
 router.get("/all/:payrollId", verifyAdmin, getPayrollByEmployee);
+
+// Download Salary slip (admin or the employee)
+router.get("/:id/download", verifyAdminOrUser, downloadSalarySlip);
 
 export default router;

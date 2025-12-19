@@ -1,16 +1,27 @@
 import prisma from "../config/prisma.js";
 
-// Create user
-export const findUserByEmail = async (email) => {
-    return prisma.user.findUnique({ where: { email } });
-};
-
 export const findUserByEmailRepo = async (email) => {
     return prisma.user.findUnique({
         where: {email},
     });
 };
 
+export const saveOtpRepo = async (email, otp, expiresAt) => {
+    return prisma.user.update({
+        where: { email },
+        data: { otp, otpExpiresAt: expiresAt }
+    });
+}
+
+export const verifyOtpRepo = async (email, otp) => {
+    const user = await prisma.user.findUnique({ where: {email} });
+    if (!user) return null;
+    if (user.otp !== otp) return null;
+    if (user.otpExpiresAt < new Date()) return null;
+    return user;
+}
+
+// Create user
 export const createUserRepo = async (data) => {
     return prisma.user.create({ data });
 };
@@ -54,4 +65,8 @@ export const deleteUserRepo = async (id) => {
             status: "Inactive"
         }
     });
+}
+
+export const findDepartmentSalaryRepo = async (department) => {
+    return prisma.departmentSalary.findUnique({ where: { department } });
 }

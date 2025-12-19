@@ -5,7 +5,8 @@ import {
   getAllUserRepo,
   getUserByIdRepo,
   updateUserRepo,
-  deleteUserRepo
+  deleteUserRepo,
+  findDepartmentSalaryRepo
 } from "../repository/user.repository.js";
 import { generateEmployeeCode } from "../utils/generateEmployeeCode.js";
 import { generateOtp } from "../utils/generateOtp.js";
@@ -48,6 +49,10 @@ export const createUserService = async (data) => {
     employeeCode = await generateEmployeeCode();
   }
 
+  // Get department salary
+  const departmentSalary = await findDepartmentSalaryRepo(department);
+  if (!departmentSalary) throw new Error(`Department salary not found for ${department}`);
+
   // Prepare User Data
   const userData = {
     firstName,
@@ -61,6 +66,8 @@ export const createUserService = async (data) => {
     department,
     status,
     employeeCode,
+    salary: departmentSalary.basicSalary,
+    departmentSalaryId: departmentSalary.id,
   };
 
   // Create User in db

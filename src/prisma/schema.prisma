@@ -39,7 +39,6 @@ enum LEAVESTATUS {
   Rejected
 }
 
-
 model User {
   id                 Int        @id @default(autoincrement())
   firstName          String     @default("")
@@ -54,11 +53,16 @@ model User {
   status             STATUS
   employeeCode       String?
 
+  otp                String?
+  otpExpiresAt       DateTime?
+
   departmentSalaryId Int
   salary             Float
 
   personalInfo       PersonalInfo?
   educationInfo      EducationInfo?
+
+  isFirstLogin       Boolean    @default(true)
 
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
