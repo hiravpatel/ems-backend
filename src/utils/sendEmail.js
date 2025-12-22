@@ -1,18 +1,19 @@
 import nodemailer from "nodemailer";
 
-export const sendEmail = async (to, subject, text) => {
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-        }
-    });
+export const sendEmail = async (to, subject, htmlContent) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
 
-    return transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to,
-        subject,
-        text
-    });
-}
+  return transporter.sendMail({
+    from: process.env.EMAIL_USER,
+    to,
+    subject,
+    html: htmlContent, // Send HTML instead of plain text
+    text: "Please view this email in HTML-supported client",
+  });
+};

@@ -1,50 +1,66 @@
-import { applyLeaveRepo, getUserLeavesRepo, getAllLeavesRepo, getLeaveByIdRepo, updateLeaveStatusRepo } from "../repository/leave.repository.js";
+import {
+  applyLeaveRepo,
+  getUserLeavesRepo,
+  getAllLeavesRepo,
+  getLeaveByIdRepo,
+  updateLeaveRepo,
+} from "../repository/leave.repository.js";
 
 // Apply for Leave (Employee)
 export const applyLeaveService = async (data) => {
-    const { employeeId, leaveTypeId, fromDate, toDate, description } = data;
+  const { employeeId, leaveTypeId, fromDate, toDate, description } = data;
 
-    if (!leaveTypeId || !fromDate || !toDate) {
-        throw new Error("All fields are required");
-    }
+  if (!leaveTypeId || !fromDate || !toDate) {
+    throw new Error("All fields are required");
+  }
 
-    // Prepare Leave
-    const leaveData = {
-        employeeId, 
-        leaveTypeId, 
-        fromDate: new Date(fromDate), 
-        toDate: new Date(toDate), 
-        description,
-        status: "Pending"
-    };
+  // Prepare Leave
+  const leaveData = {
+    employeeId,
+    leaveTypeId: Number(leaveTypeId),
+    fromDate: new Date(fromDate),
+    toDate: new Date(toDate),
+    description,
+    status: "Pending",
+  };
 
-    // Stores Leave data in db
-    return await applyLeaveRepo(leaveData);
+  // Stores Leave data in db
+  return await applyLeaveRepo(leaveData);
 };
 
 // Get all Leaves(User)
 export const getUserLeavesService = async (userId) => {
-    return await getUserLeavesRepo(userId);
-}
+  return await getUserLeavesRepo(userId);
+};
 
 // Get all Leaves(Admin)
-export const getAllLeavesService = async () => {
-    return await getAllLeavesRepo();
-}
+export const getAllLeavesService = async (page, limit) => {
+  const skip = (page - 1) * limit;
+
+  const { leaves, totalCount } = await getAllLeavesRepo(skip, limit);
+  
+  return {
+    leaves,
+    totalRecords: totalCount,
+    totalPages: Math.ceil(totalCount / limit),
+    currentPage: page
+  };
+};
 
 // Get leave by id
 export const getLeaveByIdService = async (id) => {
-    return await getLeaveByIdRepo(id);
-}
+  return await getLeaveByIdRepo(id);
+};
 
-// Update leave status (Admin)
-// Admin will approved/reject leave
-export const updateLeaveStatusService =async (id, status) => {
-    const allowedStatus = ["Pending", "Approved", "Rejected"];
+// Update leave (Admin)
+export const updateLeaveService = async (id, data) => {
+  const { status, leaveTypeId, fromDate, toDate, description } = data;
 
-    if (!allowedStatus.includes(status)) {
-        throw new Error("Invalid status");
-    }
+  const allowedStatus = ["Pending", "Approved", "Rejected"];
 
-    return await updateLeaveStatusRepo(id, status);
-}
+  if (status && !allowedStatus.includes(status)) {
+    throw new Error("Invalid status");
+  }
+
+  return await updateLeaveRepo(id, data);
+};

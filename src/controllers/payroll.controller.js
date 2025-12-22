@@ -3,7 +3,8 @@ import {
   getAllPayrollsService,
   getPayrollByEmployeeService,
   getMyPayrollsService,
-  getPayrollByIdService
+  getPayrollByIdService,
+  generateSalarySlipPDF
 } from "../services/payroll.service.js";
 import { successResponse, errorResponse } from "../utils/response.js";
 
@@ -24,7 +25,9 @@ export const processPayroll = async (req, res) => {
 // Get all payrolls
 export const getAllPayrolls = async (req, res) => {
   try {
-    const payrolls = await getAllPayrollsService();
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 5;
+    const payrolls = await getAllPayrollsService(page, limit);
     return successResponse(
       res,
       "All Payroll fetched successfully",
@@ -71,3 +74,23 @@ export const getPayrollById = async (req, res) => {
     return errorResponse(res, "Server Error", 500, error.message);
   }
 }
+
+// Download Salary Slip
+export const downloadSalarySlip = async (req, res) => {
+  try {
+    const payrollId = Number(req.params.id);
+    const user = req.user;
+
+    const pdfBuffer = await generateSalarySlipPDF(payrollId, user);
+
+    res.set({
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename=salary-slip-${payrollId}.pdf`
+    });
+
+    res.send(pdfBuffer);
+  } catch (error) {
+    console.error("Error downloading salary slip:", error);
+    return errorResponse(res, "Error generating salary slip", 500, error.message);
+  }
+};

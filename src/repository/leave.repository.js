@@ -15,16 +15,23 @@ export const getUserLeavesRepo = async (employeeId) => {
 }
 
 // Get all Leaves (Admin)
-export const getAllLeavesRepo = async () => {
-    return await prisma.leave.findMany({
-        include: {
-            employee: true,
-            leaveType: true
-        },
-        orderBy: {
-            createdAt: "desc" 
-        }
-    });
+export const getAllLeavesRepo = async (skip, limit) => {
+    const [ leaves, totalCount ] = await Promise.all([
+        prisma.leave.findMany({
+            include: {
+                employee: true,
+                leaveType: true
+            },
+            orderBy: {
+                createdAt: "desc"
+            },
+            skip,
+            take: limit
+        }),
+
+        prisma.leave.count()
+    ]);
+    return {leaves, totalCount};
 }
 
 // Get Leave by id (Admin)
@@ -38,10 +45,14 @@ export const getLeaveByIdRepo = async (id) => {
     });     
 }
 
-// Update Leave Type (Admin)
-export const updateLeaveStatusRepo = async (id, status) => {
+// Update Leave (Admin)
+export const updateLeaveRepo = async (id, data) => {
     return await prisma.leave.update({
         where: {id: Number(id)},
-        data: { status }
+        data: {
+            ...data,
+            fromDate: data.fromDate ? new Date(data.fromDate) : undefined,
+            toDate: data.fromDate ? new Date(data.toDate) : undefined
+        }
     });
 }

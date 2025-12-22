@@ -39,6 +39,11 @@ enum LEAVESTATUS {
   Rejected
 }
 
+enum OTPSTATUS {
+  PENDING
+  VERIFIED
+  EXPIRED
+}
 
 model User {
   id                 Int        @id @default(autoincrement())
@@ -56,16 +61,73 @@ model User {
 
   departmentSalaryId Int
   salary             Float
-  
+
+  personalInfo       PersonalInfo?
+  educationInfo      EducationInfo?
+
+  isFirstLogin       Boolean    @default(true)
+
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
   deletedAt          DateTime?
 
-  //Back Relation
-  departmentSalary DepartmentSalary @relation(fields: [departmentSalaryId], references: [id])
-  leaves           Leave[]
-  payrolls         Payroll[]
+  departmentSalary   DepartmentSalary @relation(fields: [departmentSalaryId], references: [id])
+  leaves             Leave[]
+  payrolls           Payroll[]
+  otps               UserOtp[]
 }
+
+model UserOtp {
+  id              Int       @id @default(autoincrement())
+  userId          Int
+  otp             String
+  status          OTPSTATUS @default(PENDING)
+  expiresAt       DateTime
+  createdAt       DateTime  @default(now())
+
+  user            User      @relation(fields: [userId], references: [id])
+}
+
+model PersonalInfo {
+  id              Int       @id @default(autoincrement())
+  fatherName      String?
+  fatherContact   String?
+  motherName      String?
+  motherContact   String?
+  address         String?
+  dateOfBirth     DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  userId          Int       @unique
+  user            User      @relation(fields: [userId], references: [id])
+}
+
+
+model EducationInfo {
+  id          Int       @id @default(autoincrement())
+
+  uDegree     String?
+  uCollege    String?
+  uYear       String?
+  uCGPA       Float?
+
+  pDegree     String?
+  pCollege    String?
+  pYear       String?
+  pCGPA       Float?
+
+  phdResearch String?
+  phdCollege  String?
+  phdYear     String?
+  phdResult   String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  userId      Int       @unique
+  user        User      @relation(fields: [userId], references: [id])
+}
+
 
 model DepartmentSalary {
   id          Int        @id @default(autoincrement())

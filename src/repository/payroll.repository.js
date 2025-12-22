@@ -19,12 +19,57 @@ export const createPayrollRepo = async (data) => {
 };
 
 // Get all payrolls
-export const getAllPayrollsRepo = async () => {
-    return prisma.payroll.findMany({
-        include: { employee: true },
-        orderBy: { createdAt: "desc" }
-    });
+// export const getAllPayrollsRepo = async () => {
+//     const [ payrolls, totalCount ] = await Promise.all([
+//         prisma.payroll.findMany({
+//             where,
+//             include: {
+//                 employee: true
+//             },
+//             orderBy: {
+//                 createdAt: "desc"
+//             },
+//             skip,
+//             take: limit
+//         }),
+
+//         prisma.payroll.count({
+//             where
+//         })
+//     ]);
+//     return { payrolls, totalCount };
+// };
+
+export const getAllPayrollsRepo = async (skip, limit, department, search) => {
+  // Build where filter
+  const where = {};
+
+  if (department && department !== "All Departments") {
+    where.employee = { department };
+  }
+
+  if (search && search.trim() !== "") {
+    where.OR = [
+      { employee: { firstName: { contains: search, mode: "insensitive" } } },
+      { employee: { lastName: { contains: search, mode: "insensitive" } } },
+      { employee: { email: { contains: search, mode: "insensitive" } } },
+    ];
+  }
+
+  const [payrolls, totalCount] = await Promise.all([
+    prisma.payroll.findMany({
+      where,
+      include: { employee: true },
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: limit
+    }),
+    prisma.payroll.count({ where })
+  ]);
+
+  return { payrolls, totalCount };
 };
+
 
 // Get Payroll by employee
 export const getPayrollByEmployeeRepo = async (payrollId) => {
@@ -49,7 +94,7 @@ export const getPayrollByIdRepo = async (payrollId, employeeId) => {
     return prisma.payroll.findFirst({
         where: {
             id: payrollId,
-            employeeId
+            ...(employeeId ? { employeeId } : {})
         },
         include: {
             employee: true

@@ -1,6 +1,12 @@
 import express from "express";
-import { createLeaveType, getAllLeaveType, getLeaveTypeById, updateLeaveType, deleteLeaveType } from "../controllers/leavetypes.controller.js"
-import { verifyAdmin } from "../middlewares/verifyAdmin.js"
+import {
+  createLeaveType,
+  getAllLeaveType,
+  getLeaveTypeById,
+  updateLeaveType,
+  deleteLeaveType,
+} from "../controllers/leavetypes.controller.js";
+import { verifyAdmin } from "../middlewares/verifyAdmin.js";
 
 const router = express.Router();
 

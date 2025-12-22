@@ -6,10 +6,12 @@ import {
   getUserByIdRepo,
   updateUserRepo,
   deleteUserRepo,
+  findDepartmentSalaryRepo
 } from "../repository/user.repository.js";
 import { generateEmployeeCode } from "../utils/generateEmployeeCode.js";
 import { generateOtp } from "../utils/generateOtp.js";
 import { sendEmail } from "../utils/sendEmail.js";
+import { getEmailTemplate } from "../utils/emailTemplate.js";
 
 // Create User
 export const createUserService = async (data) => {
@@ -47,6 +49,10 @@ export const createUserService = async (data) => {
     employeeCode = await generateEmployeeCode();
   }
 
+  // Get department salary
+  const departmentSalary = await findDepartmentSalaryRepo(department);
+  if (!departmentSalary) throw new Error(`Department salary not found for ${department}`);
+
   // Prepare User Data
   const userData = {
     firstName,
@@ -60,26 +66,18 @@ export const createUserService = async (data) => {
     department,
     status,
     employeeCode,
+    salary: departmentSalary.basicSalary,
+    departmentSalaryId: departmentSalary.id,
   };
 
   // Create User in db
   const createdUser = await createUserRepo(userData);
 
-  // Send email with otp
-  await sendEmail(
-    email,
-    "Your One-Time Password (Login Credentials)",
-    `Hello ${firstName},
-            
-            Your account  has been created successfully!
+  // Prepare HTML email
+  const htmlContent = getEmailTemplate(firstName, otp);
 
-            Your one-time password is: ${otp}
-
-            Use this password to log in for the first time.
-            Please change it after login.
-            
-            Thank you!`
-  );
+  // Send email
+  await sendEmail(email, "Your One-Time Password", htmlContent);
 
   return {
     user: createdUser,
@@ -89,8 +87,17 @@ export const createUserService = async (data) => {
 };
 
 // Get all Users
-export const getAllUserService = async () => {
-  return getAllUserRepo();
+export const getAllUserService = async (page, limit) => {
+  const skip = (page - 1) * limit;
+
+  const { users, totalCount } = await getAllUserRepo(skip, limit);
+  
+  return {
+    employees: users,
+    totalRecords: totalCount,
+    totalPages: Math.ceil(totalCount / limit),
+    currentPage: page
+  };
 };
 
 // Get User by ID

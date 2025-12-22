@@ -3,7 +3,7 @@ import {
   getAllUserService,
   getUserByIdService,
   updateUserService,
-  deleteUserService,
+  deleteUserService
 } from "../services/user.service.js";
 import { successResponse, errorResponse } from "../utils/response.js";
 // Create User
@@ -34,7 +34,9 @@ export const createUser = async (req, res) => {
 // Get all User
 export const getAllUser = async (req, res) => {
   try {
-    const users = await getAllUserService();
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 5;
+    const users = await getAllUserService(page, limit);
 
     return successResponse(res, "Users fetched successfully", users, 200);
   } catch (error) {
