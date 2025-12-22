@@ -25,7 +25,9 @@ export const processPayroll = async (req, res) => {
 // Get all payrolls
 export const getAllPayrolls = async (req, res) => {
   try {
-    const payrolls = await getAllPayrollsService();
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 5;
+    const payrolls = await getAllPayrollsService(page, limit);
     return successResponse(
       res,
       "All Payroll fetched successfully",

@@ -4,7 +4,9 @@ import {
   verifyOtpService,
   changePasswordService,
 } from "../services/auth.service.js";
+import { findUserByEmailRepo } from "../repository/user.repository.js";
 
+// Login
 export const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -22,6 +24,7 @@ export const loginController = async (req, res) => {
   }
 };
 
+// Send OTP
 export const sendOtp = async (req, res) => {
   try {
     const { email } = req.body;
@@ -35,6 +38,7 @@ export const sendOtp = async (req, res) => {
   }
 };
 
+// Verify OTP
 export const verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
@@ -48,12 +52,21 @@ export const verifyOtp = async (req, res) => {
   }
 };
 
+// Change password
 export const changePassword = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const { newPassword, confirmPassword } = req.body;
+    const { email, newPassword, confirmPassword } = req.body;
 
-    await changePasswordService(userId, newPassword, confirmPassword);
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    const user = await findUserByEmailRepo(email);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await changePasswordService(user.id, newPassword, confirmPassword);
 
     res.json({ message: "Password changed successfully" });
   } catch (error) {

@@ -87,8 +87,17 @@ export const createUserService = async (data) => {
 };
 
 // Get all Users
-export const getAllUserService = async () => {
-  return getAllUserRepo();
+export const getAllUserService = async (page, limit) => {
+  const skip = (page - 1) * limit;
+
+  const { users, totalCount } = await getAllUserRepo(skip, limit);
+  
+  return {
+    employees: users,
+    totalRecords: totalCount,
+    totalPages: Math.ceil(totalCount / limit),
+    currentPage: page
+  };
 };
 
 // Get User by ID

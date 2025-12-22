@@ -4,28 +4,28 @@ import {
   findUserByEmailRepo,
   saveOtpRepo,
   verifyOtpRepo,
-} from "../repository/user.repository.js";
+  updateUserOtpStatusRepo,
+  updateUserPasswordRepo
+} from "../repository/auth.repository.js";
 import prisma from "../config/prisma.js";
-import { getEmailTemplate } from "../utils/emailTemplate.js";
+import { getEmailTemplate } from "../utils/verifiedOtpEmailTemplate.js";
 import { sendEmail } from "../utils/sendEmail.js";
 
+// Login
 export const loginService = async (email, password) => {
   const user = await findUserByEmailRepo(email);
   if (!user) return { status: false, message: "Invalid email or password" };
 
+  // First - time login
   if (user.role === "EMPLOYEE" && user.isFirstLogin) {
-    // Compare OTP
-    const isOtpValid = await bcrypt.compare(password, user.password);
+    const isOtpValid = await bcrypt.compare(password, user.password); // Compare OTP
 
     if (!isOtpValid) {
       return { status: false, message: "Invalid OTP" };
     }
 
     // OTP correct -> mark first login done
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { isFirstLogin: false },
-    });
+    await updateUserPasswordRepo(user.id, user.password);
 
     // Return response asking user to change password
     const token = jwt.sign(
@@ -75,6 +75,7 @@ export const loginService = async (email, password) => {
   }
 };
 
+// Send OTP
 export const sendOtpService = async (email) => {
   const user = await findUserByEmailRepo(email);
   if (!user) throw new Error("User not found");
@@ -82,7 +83,7 @@ export const sendOtpService = async (email) => {
   const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
   const expiresAt = new Date(Date.now() + 10 * 60 * 1000); //10 min expiry
 
-  await saveOtpRepo(email, otp, expiresAt);
+  await saveOtpRepo(user.id, otp, expiresAt);
 
   const html = getEmailTemplate(user.firstName, otp);
   await sendEmail(email, "Your OTP for Password Reset", html);
@@ -90,12 +91,20 @@ export const sendOtpService = async (email) => {
   return true;
 };
 
+// Verify OTP
 export const verifyOtpService = async (email, otp) => {
-  const user = await verifyOtpRepo(email, otp);
-  if (!user) throw new Error("Invalid or expired OTP");
+  const user = await findUserByEmailRepo(email);
+  if(!user) throw new Error("User not found");
+  
+  const userOtp = await verifyOtpRepo(user.id, otp);
+  if (!userOtp) throw new Error("Invalid or expired OTP");
+
+  await updateUserOtpStatusRepo(userOtp.id, "VERIFIED");
+
   return true;
 };
 
+// Change Password
 export const changePasswordService = async (
   userId,
   newPassword,
@@ -110,10 +119,7 @@ export const changePasswordService = async (
   const hashedPassword = await bcrypt.hash(newPassword, 10);
 
   // Update password
-  await prisma.user.update({
-    where: { id: userId },
-    data: { password: hashedPassword, isFirstLogin: false },
-  });
+  const updatePassword = await updateUserPasswordRepo(userId, hashedPassword);
 
-  return true;
+  return updatePassword;
 };

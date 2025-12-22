@@ -9,6 +9,7 @@ import leaveRoutes from "./src/routes/leave.routes.js";
 import payrollRoutes from "./src/routes/payroll.routes.js";
 import enumRoutes from "./src/routes/enum.routes.js";
 import profileRoutes from "./src/routes/profile.routes.js";
+import cardsRoutes from "./src/routes/cards.routes.js";
 
 dotenv.config();
 
@@ -32,5 +33,6 @@ app.use("/api/leaves", leaveRoutes);
 app.use("/api/payroll", payrollRoutes)
 app.use("/api/enums", enumRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/cards", cardsRoutes);
 
 export default app;

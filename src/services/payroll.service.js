@@ -51,8 +51,17 @@ export const processPayrollService = async (employeeId, month) => {
 };
 
 // Get all payrolls
-export const getAllPayrollsService = async () => {
-  return await getAllPayrollsRepo();
+export const getAllPayrollsService = async (page, limit) => {
+  const skip = (page - 1) * limit;
+
+  const { payrolls, totalCount } = await getAllPayrollsRepo(skip, limit);
+
+  return {
+    payrolls,
+    totalRecords: totalCount,
+    totalPages: Math.ceil(totalCount / limit),
+    currentPage: page
+  };
 };
 
 // Get Payroll by employee

@@ -6,31 +6,31 @@ export const findUserByEmailRepo = async (email) => {
     });
 };
 
-export const saveOtpRepo = async (email, otp, expiresAt) => {
-    return prisma.user.update({
-        where: { email },
-        data: { otp, otpExpiresAt: expiresAt }
-    });
-}
-
-export const verifyOtpRepo = async (email, otp) => {
-    const user = await prisma.user.findUnique({ where: {email} });
-    if (!user) return null;
-    if (user.otp !== otp) return null;
-    if (user.otpExpiresAt < new Date()) return null;
-    return user;
-}
-
 // Create user
 export const createUserRepo = async (data) => {
     return prisma.user.create({ data });
 };
 
 // Get All Users
-export const getAllUserRepo = async () => {
-    return prisma.user.findMany({
-        where: {  role: "EMPLOYEE" } 
-    });
+export const getAllUserRepo = async (skip, limit) => {
+    const [ users, totalCount ] = await Promise.all([
+        prisma.user.findMany({
+            where: {
+                role: "EMPLOYEE",
+            },
+            skip,
+            take: limit,
+            orderBy: { id: "desc"}
+        }),
+
+        prisma.user.count({
+            where: {
+                role: "EMPLOYEE"
+            }
+        })
+    ]);
+
+    return {users, totalCount};
 }
 
 // Get User by Id
