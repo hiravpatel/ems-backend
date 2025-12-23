@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node --watch server.js",
     "seed": "node ./src/commands/admin-seeder.js",
+    "salary": "node ./src/commands/deptsalary-seeder.js",
     "prisma-generate": "npx prisma generate",
     "prisma-migrate": "npx prisma migrate dev"
   },

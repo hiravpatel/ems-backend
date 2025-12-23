@@ -19,15 +19,12 @@ const app = express();
 /* -------------------- CORS -------------------- */
 app.use(
     cors({
-        origin: "https://ems-front-rouge.vercel.app",
+        origin: "*",
         credentials: true,
         methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"]
     })
 );
-
-/* -------------------- MIDDLEWARE -------------------- */
-app.use(express.json());
 
 // Allow JSON
 app.use(express.json());
