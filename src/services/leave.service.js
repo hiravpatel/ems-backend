@@ -17,7 +17,7 @@ export const applyLeaveService = async (data) => {
   // Prepare Leave
   const leaveData = {
     employeeId,
-    leaveTypeId: Number(leaveTypeId),
+    leaveTypeId: leaveTypeId,
     fromDate: new Date(fromDate),
     toDate: new Date(toDate),
     description,

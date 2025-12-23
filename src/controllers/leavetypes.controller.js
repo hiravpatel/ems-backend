@@ -35,7 +35,7 @@ export const getAllLeaveType = async (req, res) => {
 export const getLeaveTypeById = async (req, res) => {
   try {
     const { id } = req.params;
-    const leaveType = await getLeaveTypeByIdService(Number(id));
+    const leaveType = await getLeaveTypeByIdService(id);
 
     return successResponse(
       res,
@@ -43,7 +43,10 @@ export const getLeaveTypeById = async (req, res) => {
       leaveType,
       200
     );
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    return errorResponse(res, "Server Error", 500, error.message);
+  }
 };
 
 // Update LeaveType
@@ -51,7 +54,7 @@ export const updateLeaveType = async (req, res) => {
   try {
     const { id } = req.params; //Extract Id
 
-    const updatedLeaveType = await updateLeaveTypeService(Number(id), req.body);
+    const updatedLeaveType = await updateLeaveTypeService(id, req.body);
 
     return successResponse(
       res,
@@ -70,7 +73,7 @@ export const deleteLeaveType = async (req, res) => {
   try {
     const { id } = req.params; //Extract ID
 
-    const deletedLeaveType = await deleteLeaveTypeService(Number(id));
+    const deletedLeaveType = await deleteLeaveTypeService(id);
 
     return successResponse(
       res,

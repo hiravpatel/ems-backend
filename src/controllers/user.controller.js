@@ -49,8 +49,8 @@ export const getAllUser = async (req, res) => {
 export const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await getUserByIdService(Number(id));
-
+    const user = await getUserByIdService(id);
+    
     return successResponse(res, "User fetched successfully", user, 200);
   } catch (error) {
     console.log(error);
@@ -63,7 +63,7 @@ export const updateUser = async (req, res) => {
   try {
     const { id } = req.params; //Extract Id
 
-    const updatedUser = await updateUserService(Number(id), req.body);
+    const updatedUser = await updateUserService(id, req.body);
 
     return successResponse(res, "User updated successfully", updatedUser, 200);
   } catch (error) {
@@ -81,7 +81,7 @@ export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params; //Extract Id
 
-    const deletedUser = await deleteUserService(Number(id));
+    const deletedUser = await deleteUserService(id);
 
     return successResponse(res, "User deleted successfully", deletedUser, 200);
   } catch (error) {

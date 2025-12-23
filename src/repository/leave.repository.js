@@ -37,7 +37,7 @@ export const getAllLeavesRepo = async (skip, limit) => {
 // Get Leave by id (Admin)
 export const getLeaveByIdRepo = async (id) => {
     return await prisma.leave.findUnique({
-        where: { id: Number(id) },
+        where: { id },
         include: {
             employee: true,
             leaveType: true
@@ -48,7 +48,7 @@ export const getLeaveByIdRepo = async (id) => {
 // Update Leave (Admin)
 export const updateLeaveRepo = async (id, data) => {
     return await prisma.leave.update({
-        where: {id: Number(id)},
+        where: {id},
         data: {
             ...data,
             fromDate: data.fromDate ? new Date(data.fromDate) : undefined,

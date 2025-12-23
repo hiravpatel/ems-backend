@@ -19,26 +19,6 @@ export const createPayrollRepo = async (data) => {
 };
 
 // Get all payrolls
-// export const getAllPayrollsRepo = async () => {
-//     const [ payrolls, totalCount ] = await Promise.all([
-//         prisma.payroll.findMany({
-//             where,
-//             include: {
-//                 employee: true
-//             },
-//             orderBy: {
-//                 createdAt: "desc"
-//             },
-//             skip,
-//             take: limit
-//         }),
-
-//         prisma.payroll.count({
-//             where
-//         })
-//     ]);
-//     return { payrolls, totalCount };
-// };
 
 export const getAllPayrollsRepo = async (skip, limit, department, search) => {
   // Build where filter

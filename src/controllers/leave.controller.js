@@ -83,7 +83,7 @@ export const updateLeave = async (req, res) => {
     const { id } = req.params; //Extract Id
     const { status, leaveTypeId, fromDate, toDate, description } = req.body;
 
-    const updatedLeave = await updateLeaveService(Number(id), {
+    const updatedLeave = await updateLeaveService(id, {
       status,
       leaveTypeId,
       fromDate,

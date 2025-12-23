@@ -115,7 +115,7 @@ export const getUserByIdService = async (id) => {
 
 // Update User
 export const updateUserService = async (id, data) => {
-  // Check user is available or not
+  // Check if user exists
   const existingUser = await getUserByIdRepo(id);
 
   if (!existingUser) {
@@ -124,16 +124,29 @@ export const updateUserService = async (id, data) => {
     throw error;
   }
 
-  // Hash the password
-  let updatedData = { ...data };
+  // Prepare updated data
+  const updatedData = { ...data };
 
+  // Convert joiningDate to Date if it exists
+  if (data.joiningDate) {
+    updatedData.joiningDate = new Date(data.joiningDate);
+  }
+
+  // Hash password if provided
   if (data.password) {
     updatedData.password = await bcrypt.hash(data.password, 10);
   }
 
-  // Return Updated User
-  return await updateUserRepo(id, updatedData);
+  // Update user in DB
+  try {
+    const updatedUser = await updateUserRepo(id, updatedData);
+    return updatedUser;
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw new Error("Failed to update user");
+  }
 };
+
 
 // Delete User
 export const deleteUserService = async (id) => {

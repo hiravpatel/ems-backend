@@ -44,7 +44,7 @@ export const getAllPayrolls = async (req, res) => {
 export const getPayrollByEmployee = async (req, res) => {
   try {
     const { payrollId } = req.params;
-    const payrolls = await getPayrollByEmployeeService(Number(payrollId));
+    const payrolls = await getPayrollByEmployeeService(payrollId);
     return successResponse(res, "Payroll fetched successfully", payrolls, 200);
   } catch (error) {
     console.log(error);
@@ -67,7 +67,7 @@ export const getMyPayrolls = async (req, res) => {
 // Employee Salary Slip by id
 export const getPayrollById = async (req, res) => {
   try {
-    const payroll = await getPayrollByIdService(Number(req.params.id), req.user.id);
+    const payroll = await getPayrollByIdService(req.params.id, req.user.id);
     return successResponse(res, "Payroll fetched successfully", payroll, 200);
   } catch (error) {
     console.log(error);
@@ -78,7 +78,7 @@ export const getPayrollById = async (req, res) => {
 // Download Salary Slip
 export const downloadSalarySlip = async (req, res) => {
   try {
-    const payrollId = Number(req.params.id);
+    const payrollId = req.params.id;
     const user = req.user;
 
     const pdfBuffer = await generateSalarySlipPDF(payrollId, user);

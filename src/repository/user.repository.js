@@ -36,10 +36,7 @@ export const getAllUserRepo = async (skip, limit) => {
 // Get User by Id
 export const getUserByIdRepo = async (id) => {
     return prisma.user.findFirst({
-        where: {
-            id: Number(id),
-            deletedAt: null
-        },
+        where: {id},
         include: {
             personalInfo: true,
             educationInfo: true
@@ -59,7 +56,7 @@ export const updateUserRepo = async (id, data) => {
 // This logic is for users Soft Delete
 export const deleteUserRepo = async (id) => {
     return prisma.user.update({
-        where: { id: Number(id) },
+        where: { id: id },
         data: {
             deletedAt: new Date(),
             status: "Inactive"
