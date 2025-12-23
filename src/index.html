@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>EMS Backend API – Staging</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f9fc;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        h2 {
+            margin-top: 30px;
+            color: #34495e;
+        }
+
+        .endpoint {
+            background: #ffffff;
+            border-left: 5px solid #3498db;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .method {
+            font-weight: bold;
+            color: #e67e22;
+        }
+
+        code {
+            display: block;
+            background: #f4f4f4;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+
+        .url {
+            color: #27ae60;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>EMS Backend API – Staging</h1>
+    <p><strong>Base URL:</strong> <span class="url">https://ems-backend-ufhm.onrender.com</span></p>
+
+    <!-- AUTH -->
+    <h2>Authentication</h2>
+
+    <div class="endpoint">
+        <span class="method">POST</span> Login
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/auth/login
+
+            {
+            "email": "patelhirav2212@gmail.com",
+            "password": "Hirav@123"
+            }
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">POST</span> Forgot Password
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/auth/forgot-password
+
+            {
+            "email": "sujalzala66@gmail.com"
+            }
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">POST</span> Verify OTP
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/auth/verify-otp
+
+            {
+            "email": "sujalzala66@gmail.com",
+            "otp": ""
+            }
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">POST</span> Change Password
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/auth/change-password
+
+            {
+            "email": "sujalzala66@gmail.com",
+            "newPassword": "SHXRWH",
+            "confirmPassword": "SHXRWH"
+            }
+        </code>
+    </div>
+
+    <!-- USERS -->
+    <h2>Users</h2>
+
+    <div class="endpoint">
+        <span class="method">POST</span> Create User
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/users
+
+            {
+            "firstName": "Divya",
+            "lastName": "Patil",
+            "email": "divpatil@gmail.com",
+            "contactNumber": "9452876321",
+            "joiningDate": "2025-01-15T10:25:30.000Z",
+            "password": "divya2930",
+            "position": "HR_Executive",
+            "department": "HR",
+            "status": "Active"
+            }
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Get All Users
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/users
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Get User By ID
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/users/{id}
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">PUT</span> Update User
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/users/{id}
+
+            {
+            "firstName": "Divyaa",
+            "lastName": "Pawar",
+            "email": "divyapawar@gmail.com",
+            "contactNumber": "7852146398",
+            "password": "divya29301"
+            }
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">DELETE</span> Delete User
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/users/{id}
+        </code>
+    </div>
+
+    <!-- LEAVE TYPES -->
+    <h2>Leave Types</h2>
+
+    <div class="endpoint">
+        <span class="method">POST</span> Create Leave Type
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/leavetype
+
+            {
+            "leaveType": "Sick Leave",
+            "description": "Leave taken when the employee is unwell or needs medical care."
+            }
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Get All Leave Types
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/leavetype
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Get Leave Type By ID
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/leavetype/{id}
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">PUT</span> Update Leave Type
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/leavetype/{id}
+
+            {
+            "leaveType": "Sick Leave",
+            "description": "Leave taken when the employee is unwell or needs medical care."
+            }
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">DELETE</span> Delete Leave Type
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/leavetype/{id}
+        </code>
+    </div>
+
+    <!-- LEAVES -->
+    <h2>Leaves</h2>
+
+    <div class="endpoint">
+        <span class="method">POST</span> Apply for Leave (Employee)
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/leaves
+            Authorization: Bearer &lt;USER_TOKEN&gt;
+
+            {
+            "leaveTypeId": 2,
+            "fromDate": "2025-02-01T00:00:00.000Z",
+            "toDate": "2025-02-03T00:00:00.000Z",
+            "description": "I am suffering from fever."
+            }
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Get All Leaves (User)
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/leaves
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Get All Leaves (Admin)
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/leaves/allLeave
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Get Leave By ID (Admin)
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/leaves/allLeave/{id}
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">PUT</span> Update Leave (Admin)
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/leaves/{id}
+
+            {
+            "status": "Approved",
+            "leaveTypeId": 2,
+            "fromDate": "",
+            "toDate": "",
+            "description": ""
+            }
+        </code>
+    </div>
+
+    <!-- PAYROLL -->
+    <h2>Payroll</h2>
+
+    <div class="endpoint">
+        <span class="method">POST</span> Process Payroll (Admin)
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/payroll/process
+            Authorization: Bearer &lt;USER_TOKEN&gt;
+
+            {
+            "employeeId": 2,
+            "month": "",
+            "basicSalary": "",
+            "allowance": "",
+            "deduction": "",
+            "netSalary": "",
+            "payrollStatus": ""
+            }
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Get All Payrolls (Admin)
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/payroll
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Get My Payrolls (User)
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/payroll/my
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Get Payroll By ID (User)
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/payroll/my/{id}
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Get Payroll By Employee
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/payroll/all/
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Download Salary Slip
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/payroll/{id}/download
+        </code>
+    </div>
+
+    <!-- PROFILE -->
+    <h2>Profile</h2>
+
+    <div class="endpoint">
+        <span class="method">GET</span> View Profile
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/profile
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">POST</span> Save Basic Info
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/profile/basic
+            Authorization: Bearer &lt;USER_TOKEN&gt;
+
+            {
+            "firstName": "",
+            "lastName": "",
+            "email": "",
+            "contactNumber": ""
+            }
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">POST</span> Save Personal Info
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/profile/personal
+            Authorization: Bearer &lt;USER_TOKEN&gt;
+
+            {
+            "fatherName": "",
+            "fatherContact": "",
+            "motherName": "",
+            "motherContact": "",
+            "address": "",
+            "dateOfBirth": ""
+            }
+        </code>
+    </div>
+
+    <div class="endpoint">
+        <span class="method">POST</span> Save Education Info
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/profile/education
+            Authorization: Bearer &lt;USER_TOKEN&gt;
+
+            {
+            "uDegree": "",
+            "uCollege": "",
+            "uCGPA": "",
+            "uYear": "",
+            "pDegree": "",
+            "pCollege": "",
+            "pCGPA": "",
+            "pYear": "",
+            "phdResearch": "",
+            "phdCollege": "",
+            "phdYear": "",
+            "phdResult": ""
+            }
+        </code>
+    </div>
+
+    <!-- ENUMS -->
+    <h2>Enums</h2>
+
+    <div class="endpoint">
+        <span class="method">GET</span> View Enums
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/enums
+        </code>
+    </div>
+
+    <!-- CARDS -->
+    <h2>Cards</h2>
+
+    <div class="endpoint">
+        <span class="method">GET</span> Dashboard Cards
+        <code>
+            https://ems-backend-ufhm.onrender.com/api/cards/dashboard-cards
+        </code>
+    </div>
+
+</body>
+
+</html>

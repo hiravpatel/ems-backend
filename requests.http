@@ -7,6 +7,34 @@ Content-Type: application/json
   "password": "SHXRWH"
 }
 
+### FORGOT-PASSWORD
+POST http://localhost:5000/api/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "sujalzala66@gmail.com",
+}
+
+### VERIFY-OTP
+POST http://localhost:5000/api/auth/verify-otp
+Content-Type: application/json
+
+{
+  "email": "sujalzala66@gmail.com",
+  "otp": ""
+}
+
+### CHANGE-PASSWORD
+POST http://localhost:5000/api/auth/change-password
+Content-Type: application/json
+
+{
+  "email": "sujalzala66@gmail.com",
+  "newPassword": "SHXRWH",
+  "confirmPassword": "SHXRWH"
+}
+
+
 ### USER
 
 ### CREATE USER
@@ -49,6 +77,7 @@ Content-Type: application/json
 DELETE http://localhost:5000/api/users/5
 Content-Type: application/json
 
+
 ### LEAVE TYPE
 
 ### CREATE LEAVE TYPE
@@ -64,6 +93,10 @@ Content-Type: application/json
 GET http://localhost:5000/api/leavetype
 Content-Type: application/json
 
+### GET ALL LEAVE TYPE BY ID
+GET http://localhost:5000/api/leavetype/5
+Content-Type: application/json
+
 ### UPDATE LEAVE TYPE 
 PUT http://localhost:5000/api/leavetype/
 Content-Type: application/json
@@ -76,6 +109,7 @@ Content-Type: application/json
 ### DELETE LEAVE TYPE 
 DELETE http://localhost:5000/api/leavetype/
 Content-Type: application/json
+
 
 ### LEAVE MANAGEMENT
 
@@ -90,17 +124,30 @@ Authorization: Bearer <USER_TOKEN>
   "description": "I am suffering from fever."
 }
 
-### GET ALL LEAVE (ADMIN)
+### GET ALL LEAVE (USER)
 GET http://localhost:5000/api/leaves
 Content-Type: application/json
 
-### UPDATE LEAVE STATUS (ADMIN)
-PUT http://localhost:5000/api/leaves/1/status
+### GET ALL LEAVE (ADMIN)
+GET http://localhost:5000/api/leaves/allLeave
+Content-Type: application/json
+
+### GET LEAVE BY ID (ADMIN)
+GET http://localhost:5000/api/leaves/allLeave/4
+Content-Type: application/json
+
+### UPDATE LEAVE (ADMIN)
+PUT http://localhost:5000/api/leaves/1
 Content-Type: application/json
 
 {
-  "status": "Approved"
+  "status": "Approved",
+  "leaveTypeId": 2,
+  "fromDate": "",
+  "toDate": "",
+  "description": ""
 }
+
 
 ### PAYROLL
 
@@ -118,15 +165,86 @@ Authorization: Bearer <USER_TOKEN>
   "payrollStatus": ""
 }
 
-### GET ALL PAYROLLS
+### GET ALL PAYROLLS (ADMIN)
 GET http://localhost:5000/api/payroll
 Content-Type: application/json
 
-### GET PAYROLL BY EMPLOYEE
-GET http://localhost:5000/api/payroll/5
-Content-Type: application/json
-
-### GET ALL PAYROLL OF EMPLOYEE
+### GET ALL PAYROLLS (USER)
 GET http://localhost:5000/api/payroll/my
 Content-Type: application/json
 
+### EMPLOYEE SALARY SLIP BY ID
+GET http://localhost:5000/api/payroll/my/5
+Content-Type: application/json
+
+### GET PAYROLL BY EMPLOYEE
+GET http://localhost:5000/api/payroll/all/
+Content-Type: application/json
+
+### DOWNLOAD SALARY SLIP (ADMIN & USER)
+GET http://localhost:5000/api/payroll/4/download
+Content-Type: application/json
+
+
+## PROFILE
+
+### VIEW PROFILE
+GET http://localhost:5000/api/profile
+Content-Type: application/json
+
+### SAVE BASIC INFO
+POST http://localhost:5000/api/profile/basic
+Content-Type: application/json
+Authorization: Bearer <USER_TOKEN>
+{
+  "firstName": "",
+  "lastName": "",
+  "email": "",
+  "contactNumber": "",
+}
+
+### SAVE PERSONAL INFO
+POST http://localhost:5000/api/profile/personal
+Content-Type: application/json
+Authorization: Bearer <USER_TOKEN>
+{
+  "fatherName": "",
+  "fatherContact": "",
+  "motherName": "",
+  "motherContact": "",
+  "address": "",
+  "dateOfBirth": ""
+}
+
+### SAVE EDUCATION INFO
+POST http://localhost:5000/api/profile/education
+Content-Type: application/json
+Authorization: Bearer <USER_TOKEN>
+{
+  "uDegree": "",
+  "uCollege": "",
+  "uCGPA": "",
+  "uYear": "",
+  "pDegree": "",
+  "pCollege": "",
+  "pCGPA": "",
+  "pYear": "",
+  "phdResearch": "",
+  "phdCollege": "",
+  "phdYear": "",
+  "phdResult": ""
+}
+
+
+### ENUMS
+
+### VIEW PROFILE
+GET http://localhost:5000/api/enums
+Content-Type: application/json
+
+
+### CARDS
+
+### VIEW PROFILE
+GET http://localhost:5000/api/cards/dashboard-cards
+Content-Type: application/json
