@@ -103,7 +103,11 @@ export const generateSalarySlipPDF = async (payrollId, user) => {
 
   const html = getSalarySlipTemplate(payroll);
 
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    args: chromium.args,
+    executablePath: await chromium.executablePath,
+    headless: chromium.headless
+  });
   const page = await browser.newPage();
   await page.setContent(html, { waitUntil: "networkidle0" });
 

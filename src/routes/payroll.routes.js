@@ -14,6 +14,9 @@ import { verifyAdminOrUser } from "../middlewares/verifyAdminOrUser.js";
 
 const router = express.Router();
 
+// Download Salary slip (admin or the employee)
+router.get("/:id/download", verifyAdminOrUser, downloadSalarySlip);
+
 // Admin Process payroll
 router.post("/process", verifyAdmin, processPayroll);
 
@@ -29,7 +32,5 @@ router.get("/my/:id", verifyUser, getPayrollById);
 // Get Payroll by employee
 router.get("/all/:payrollId", verifyAdmin, getPayrollByEmployee);
 
-// Download Salary slip (admin or the employee)
-router.get("/:id/download", verifyAdminOrUser, downloadSalarySlip);
 
 export default router;
